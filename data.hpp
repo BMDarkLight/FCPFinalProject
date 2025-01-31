@@ -32,6 +32,8 @@ struct Data {
     Student findStudent (int id) {
 
     };
+    vector <Student> students;
+    vector <Subject> subjects;
 };
 
 
