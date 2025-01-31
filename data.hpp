@@ -7,19 +7,15 @@ using namespace std;
 struct Subject {
     short multiplier;
     string name;
-    short score;
+    short score = 0;
 };
 
 struct Student {
     string name;
     int id;
     string field;
-    vector <Subject*> subjects;
-};
-
-struct Data {
-    vector <Student> students;
     vector <Subject> subjects;
 };
+
 
 #endif
