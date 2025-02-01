@@ -23,12 +23,15 @@ int main () {
     while (1) {
         switch (menu()) {
             case 1:
+                system("cls");
                 cout << "ID\tName\tField\n";
                 for (int i = 0; i < students.size(); i++) cout << students[i].id << "\t" << students[i].name << "\t" << students[i].field << "\n";
+                system("pause");
                 break;
             case 2:
                 break;// SORT BY GRADE
             case 3:
+                system("cls");
                 cout << "\nPlease enter ID of the student in question : "; int id; cin >> id; did = false;
                 for (int i = 0; i < students.size(); i++) if (students[i].id == id) {
                     cout << "\nActive Subjects of " << students[i].name << "\n";
@@ -38,9 +41,12 @@ int main () {
                 }
 
                 if (!did) cout << "\nStudent Not found\n";
+                system("pause");
                 break;
             case 4:
+                system("cls");
                 student = {};
+                did = false;
 
                 cout << "\nPlease Enter name of the student you want to register : ";
                 cin >> name;
@@ -53,12 +59,14 @@ int main () {
                 cout << "\nStudent's ID : ";
                 cin >> id;
                 student.id = id;
+                for (int i = 0; i < students.size(); i++) if (students[i].id == id) did = true;
 
-                students.push_back(student);
-
-                cout << "\nStudent Registered.\n";
+                if (!did) students.push_back(student), cout << "\nStudent Registered.\n";
+                else cout << "\nStudent with the ID " << id << " already exists.\n";
+                system("pause");
                 break;
             case 5:
+                system("cls");
                 cout << "\nPlease enter ID of the student in question : "; cin >> id; did = false;
                 for (int i = 0; i < students.size(); i++) if (students[i].id == id) {
                     subject = {};
@@ -83,14 +91,43 @@ int main () {
                 }
 
                 if (!did) cout << "\nStudent Not found\n";
+                system("pause");
                 break;
             case 6:
-                // Edit STU
+                system("cls");
+                cout << "\nPlease enter ID of the student in question : "; cin >> id; did = false;
+                for (int i = 0; i < students.size(); i++) if (students[i].id == id) {
+                    cout << "What do you want to do with " << students[i].name << "\n1 - Delete\n2 - Rewrite Info\n";
+                    cin >> grade;
+                    if (grade == 1) {
+                        cout << "Are you sure ? (Y/n) ";
+                        cin >> name;
+                        if (name == "Y" || name == "Yes" || name == "y" || name == "yes") students.erase(students.begin() + i), cout << "\nRemoved.\n";
+                        else cout << "\nAbort.\n";
+                    } else if (grade == 2) {
+                        cout << "\nPlease Enter name of the student you want to register : ";
+                        cin >> name;
+                        students[i].name = name;
+
+                        cout << "\nThe field this student studies at : ";
+                        cin >> field;
+                        students[i].field = field;
+
+                        cout << "\nChanges Done.\n";
+                    } else {
+                        cout << "\nAbort.\n";
+                    }
+
+                    did = true;
+                }
+
+                if (!did) cout << "\nStudent Not found\n";
+                system("pause");
                 break;
             case 7:
                 // EDIT SUB
                 break;
-            default: 
+            default:
                 saveSt(students);
                 exit(0);
         }
