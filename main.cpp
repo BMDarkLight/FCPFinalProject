@@ -29,7 +29,8 @@ int main () {
                 system("pause");
                 break;
             case 2:
-                break;// SORT BY GRADE
+                
+                break;
             case 3:
                 system("cls");
                 cout << "\nPlease enter ID of the student in question : "; int id; cin >> id; did = false;
