@@ -131,7 +131,9 @@ int main () {
                 system("pause");
                 break;
             case 7:
+                system("cls");
                 // EDIT SUB
+                system("pause");
                 break;
             case 8:
                 system("cls");
