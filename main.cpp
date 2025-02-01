@@ -19,6 +19,7 @@ int main () {
     Student student;
     Subject subject;
     vector <Student> students = loadSt();
+    bool did;
     while (1) {
         switch (menu()) {
             case 1:
@@ -28,12 +29,15 @@ int main () {
             case 2:
                 break;// SORT BY GRADE
             case 3:
-                cout << "\nPlease enter ID of the student in question : \n"; int id; cin >> id;
+                cout << "\nPlease enter ID of the student in question : "; int id; cin >> id; did = false;
                 for (int i = 0; i < students.size(); i++) if (students[i].id == id) {
-                    cout << "Active Subjects of " << students[i].name << "\n";
+                    cout << "\nActive Subjects of " << students[i].name << "\n";
                     cout << "Name\tMultiplier\tGrade\n";
                     for (int j = 0; j < students[i].subjects.size(); j++) cout << students[i].subjects[j].name << "\t" << students[i].subjects[j].multiplier << "\t" << students[i].subjects[j].score << "\n";
+                    did = true;
                 }
+
+                if (!did) cout << "\nStudent Not found\n";
                 break;
             case 4:
                 student = {};
@@ -55,7 +59,7 @@ int main () {
                 cout << "\nStudent Registered.\n";
                 break;
             case 5:
-                cout << "\nPlease enter ID of the student in question : "; cin >> id;
+                cout << "\nPlease enter ID of the student in question : "; cin >> id; did = false;
                 for (int i = 0; i < students.size(); i++) if (students[i].id == id) {
                     subject = {};
 
@@ -74,7 +78,11 @@ int main () {
                     students[i].subjects.push_back(subject);
                     
                     cout << "\nSubject " << name << " is assigned to " << students[i].name << "\n";
+
+                    did = true;
                 }
+
+                if (!did) cout << "\nStudent Not found\n";
                 break;
             case 6:
                 // Edit STU
@@ -86,11 +94,12 @@ int main () {
                 saveSt(students);
                 exit(0);
         }
+        system("cls");
     }
 }
 
 int menu() {
-    cout << "Please type the number associated with action you want to perform : \n1 - List students\n2 - Sort and List students by Score\n3 - List Subjects of an Student\n4 - Register a new Student\n5 - Assign a new Subject\n6 - Edit Students\n7 - Edit Subjects\n\nType any other character to save and exit ...\n";
+    cout << "\n\nPlease type the number associated with action you want to perform : \n1 - List students\n2 - Sort and List students by Score\n3 - List Subjects of an Student\n4 - Register a new Student\n5 - Assign a new Subject\n6 - Edit Students\n7 - Edit Subjects\n\nType any other character to save and exit ...\n";
     int i;
     cin >> i;
     return i;
