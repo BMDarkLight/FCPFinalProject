@@ -13,7 +13,7 @@ using namespace std;
 void saveSt(const vector<Student>& students) {
     ofstream file("students.dat", ios::binary | ios::trunc);
     if (!file) {
-        cout << "Error opening file for writing!" << endl;
+        cout << ">> Cannot Save Data to File!" << endl;
         return;
     }
 
@@ -50,7 +50,7 @@ void saveSt(const vector<Student>& students) {
 vector<Student> loadSt() {
     ifstream file("students.dat", ios::binary);
     if (!file) {
-        cout << "Error opening file for reading!" << endl;
+        cout << ">> Database File is not open." << endl;
         return {};
     }
 

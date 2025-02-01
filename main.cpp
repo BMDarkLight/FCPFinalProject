@@ -29,7 +29,9 @@ int main () {
                 system("pause");
                 break;
             case 2:
-                
+                system("cls");
+                // SORT BY SCORE
+                system("pause");
                 break;
             case 3:
                 system("cls");
@@ -50,11 +52,12 @@ int main () {
                 did = false;
 
                 cout << "\nPlease Enter name of the student you want to register : ";
-                cin >> name;
+                cin.ignore();
+                getline(cin, name);
                 student.name = name;
 
                 cout << "\nThe field this student studies at : ";
-                cin >> field;
+                getline(cin, field);
                 student.field = field;
 
                 cout << "\nStudent's ID : ";
@@ -73,7 +76,8 @@ int main () {
                     subject = {};
 
                     cout << "\nName of Subject you want to assign : ";
-                    string name; cin >> name;
+                    cin.ignore();
+                    getline(cin, name);
                     subject.name = name;
 
                     cout << "\nIts credit : ";
@@ -101,17 +105,18 @@ int main () {
                     cout << "What do you want to do with " << students[i].name << "\n1 - Delete\n2 - Rewrite Info\n";
                     cin >> grade;
                     if (grade == 1) {
-                        cout << "Are you sure ? (Y/n) ";
+                        cout << "Are you sure ? (y/N) ";
                         cin >> name;
                         if (name == "Y" || name == "Yes" || name == "y" || name == "yes") students.erase(students.begin() + i), cout << "\nRemoved.\n";
                         else cout << "\nAbort.\n";
                     } else if (grade == 2) {
                         cout << "\nPlease Enter name of the student you want to register : ";
-                        cin >> name;
+                        cin.ignore();
+                        getline(cin, name);
                         students[i].name = name;
 
                         cout << "\nThe field this student studies at : ";
-                        cin >> field;
+                        getline(cin, field);
                         students[i].field = field;
 
                         cout << "\nChanges Done.\n";
@@ -128,6 +133,35 @@ int main () {
             case 7:
                 // EDIT SUB
                 break;
+            case 8:
+                system("cls");
+                cout << "These Options are Dangerous, Can Overwrite data, Proceed with caution!\n\n1 - Insert Randomized Scores for all Subjects of all Students\n2 - Reset Database (Remove Everything)\n3 - Reset all Subjects\n\n4 - Save\n";
+                cin >> grade;
+                switch (grade) {
+                    case 1:
+                        // INSERT RANDOM SCORES
+                        break;
+                    case 2:
+                        cout << "Are you sure ? This Action Removes all registered students and assigned subjects from the database and cannot be recovered. (y/N) ";
+                        cin >> name;
+                        if (name == "Y" || name == "Yes" || name == "y" || name == "yes") students = {}, remove("students.dat"), cout << "\nAll Data Reset.\n";
+                        else cout << "\nAbort.\n";
+                        break;
+                    case 3:
+                        cout << "Are you sure ? This Action Removes all assigned subjects from the database and cannot be recovered. (y/N) ";
+                        cin >> name;
+                        if (name == "Y" || name == "Yes" || name == "y" || name == "yes") for (int i = 0; i < students.size(); i++) students[i].subjects = {}, cout << "\nAll Subjects Reset.\n";
+                        else cout << "\nAbort.\n";
+                        break;
+                    case 4:
+                        saveSt(students);
+                        cout << "\nChanges Saved.\n";
+                        break;
+                    default:
+                        cout << "Abort.\n";
+                }
+                system("pause");
+                break;
             default:
                 saveSt(students);
                 exit(0);
@@ -137,7 +171,7 @@ int main () {
 }
 
 int menu() {
-    cout << "\n\nPlease type the number associated with action you want to perform : \n1 - List students\n2 - Sort and List students by Score\n3 - List Subjects of an Student\n4 - Register a new Student\n5 - Assign a new Subject\n6 - Edit Students\n7 - Edit Subjects\n\nType any other character to save and exit ...\n";
+    cout << "\n\nPlease type the number associated with action you want to perform : \n1 - List students\n2 - Sort and List students by Score\n3 - List Subjects of an Student\n4 - Register a new Student\n5 - Assign a new Subject\n6 - Edit Students\n7 - Edit Subjects\n\n8 - Database Management\n\nType any other character to save and exit ...\n";
     int i;
     cin >> i;
     return i;
