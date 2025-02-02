@@ -38,6 +38,8 @@ int main () {
                             swap(students[j], students[j + 1]);
                     }
                 }
+                cout << "\nID\tName\tField\tScore\n";
+                for (int i = 0; i < students.size(); i++) cout << students[i].id << "\t" << students[i].name << "\t" << students[i].field << "\t" << students[i].score << endl;
                 system("pause");
                 break;
             case 3:
