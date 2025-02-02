@@ -15,7 +15,6 @@ struct Student {
     int id;
     string field;
     vector <Subject> subjects;
-};
 
 float score_gen() {
         if (subjects.size() == 0) {
