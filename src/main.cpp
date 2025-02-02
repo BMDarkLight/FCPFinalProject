@@ -30,7 +30,14 @@ int main () {
                 break;
             case 2:
                 system("cls");
-                // SORT BY SCORE
+                for (int i = 0; i < students.size()-1; i++)
+                {
+                    for (int j = 0; j < students.size()-i-1; j++)
+                    {
+                        if (students[j].score > students[j + 1].score)
+                            swap(students[j], students[j + 1]);
+                    }
+                }
                 system("pause");
                 break;
             case 3:
