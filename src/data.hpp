@@ -26,7 +26,7 @@ float scoreCalc(const Student &student) {
     if (!subjects.size()) return 0;
     for (int i = 0; i < subjects.size(); i++) score += subjects[i].score * subjects[i].multiplier, n += subjects[i].multiplier;
 
-    score /= subjects.size() * n;
+    score /=n;
 
     return score;
 }
