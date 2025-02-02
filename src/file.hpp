@@ -13,14 +13,14 @@ using namespace std;
 void saveSt(const vector<Student>& students) {
     ofstream file("students.dat", ios::binary | ios::trunc);
     if (!file) {
-        cout << ">> Cannot Save Data to File!" << endl;
+        cout << "Unable to Save. " << endl;
         return;
     }
 
     int size = students.size();
     file.write(reinterpret_cast<const char*>(&size), sizeof(size));
 
-    for (const auto& student : students) {
+    for (const Student& student : students) {
         int nameLength = student.name.size();
         file.write(reinterpret_cast<const char*>(&nameLength), sizeof(nameLength));
         file.write(student.name.c_str(), nameLength);
@@ -34,7 +34,7 @@ void saveSt(const vector<Student>& students) {
         int subjectCount = student.subjects.size();
         file.write(reinterpret_cast<const char*>(&subjectCount), sizeof(subjectCount));
 
-        for (const auto& subject : student.subjects) {
+        for (const Subject& subject : student.subjects) {
             int subNameLength = subject.name.size();
             file.write(reinterpret_cast<const char*>(&subNameLength), sizeof(subNameLength));
             file.write(subject.name.c_str(), subNameLength);
@@ -50,7 +50,7 @@ void saveSt(const vector<Student>& students) {
 vector<Student> loadSt() {
     ifstream file("students.dat", ios::binary);
     if (!file) {
-        cout << ">> Database File is not open." << endl;
+        cout << "No Saves Detected to Load. " << endl;
         return {};
     }
 
@@ -58,7 +58,7 @@ vector<Student> loadSt() {
     file.read(reinterpret_cast<char*>(&size), sizeof(size));
 
     vector <Student> students(size);
-    for (auto& student : students) {
+    for (Student& student : students) {
         int nameLength;
         file.read(reinterpret_cast<char*>(&nameLength), sizeof(nameLength));
         student.name.resize(nameLength);
@@ -75,7 +75,7 @@ vector<Student> loadSt() {
         file.read(reinterpret_cast<char*>(&subjectCount), sizeof(subjectCount));
 
         student.subjects.resize(subjectCount);
-        for (auto& subject : student.subjects) {
+        for (Subject& subject : student.subjects) {
             int subNameLength;
             file.read(reinterpret_cast<char*>(&subNameLength), sizeof(subNameLength));
             subject.name.resize(subNameLength);

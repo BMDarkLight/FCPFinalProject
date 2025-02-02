@@ -7,6 +7,9 @@
 #include "data.hpp"
 #include "file.hpp"
 
+#define cls system("cls")
+#define pause system("pause"); break
+
 using namespace std;
 
 int menu ();
@@ -20,31 +23,35 @@ int main () {
     Subject subject;
     vector <Student> students = loadSt();
     bool did;
+
     while (1) {
         switch (menu()) {
             case 1:
-                system("cls");
+                cls;
                 cout << "ID\tName\tField\n";
                 for (int i = 0; i < students.size(); i++) cout << students[i].id << "\t" << students[i].name << "\t" << students[i].field << "\n";
-                system("pause");
-                break;
+                cout << "\n\n";
+                pause;
             case 2:
-                system("cls");
-                for (int i = 0; i < students.size()-1; i++)
-                {
-                    for (int j = 0; j < students.size()-i-1; j++)
-                    {
-                        if (students[j].score > students[j + 1].score)
+                cls;
+                for (int i = 0; i < students.size() - 1; i++) for (int j = 0; j < students.size() - i - 1; j++) if (scoreCalc(students[j]) < scoreCalc(students[j + 1]))
                             swap(students[j], students[j + 1]);
-                    }
-                }
-                cout << "\nID\tName\tField\tScore\n";
-                for (int i = 0; i < students.size(); i++) cout << students[i].id << "\t" << students[i].name << "\t" << students[i].field << "\t" << students[i].score << endl;
-                system("pause");
-                break;
+                
+                cout << "ID\tName\tField\tScore\n";
+                for (int i = 0; i < students.size(); i++) cout << students[i].id << "\t" << students[i].name << "\t" << students[i].field << "\t" << scoreCalc(students[i]) << endl;
+                cout << "\n\n";
+                pause;
             case 3:
-                system("cls");
-                cout << "\nPlease enter ID of the student in question : "; int id; cin >> id; did = false;
+                cls;
+                cout << "Please enter the Studying Field that you want to list students of : ";
+                cin >> field;
+                cout << "\nID\tName\n";
+                for (int i = 0; i < students.size(); i++) if (students[i].field == field) cout << students[i].id << "\t" << students[i].name << "\n";
+                cout << "\n\n";
+                pause;
+            case 4:
+                cls;
+                cout << "Please enter ID of the student in question : "; cin >> id; did = false;
                 for (int i = 0; i < students.size(); i++) if (students[i].id == id) {
                     cout << "\nActive Subjects of " << students[i].name << "\n";
                     cout << "Name\tMultiplier\tGrade\n";
@@ -52,15 +59,14 @@ int main () {
                     did = true;
                 }
 
-                if (!did) cout << "\nStudent Not found\n";
-                system("pause");
-                break;
-            case 4:
-                system("cls");
+                if (!did) cout << "\nStudent Not found\n"; else cout << "\n\n";
+                pause;
+            case 5:
+                cls;
                 student = {};
                 did = false;
 
-                cout << "\nPlease Enter name of the student you want to register : ";
+                cout << "Please Enter name of the student you want to register : ";
                 cin.ignore();
                 getline(cin, name);
                 student.name = name;
@@ -69,22 +75,28 @@ int main () {
                 getline(cin, field);
                 student.field = field;
 
+                Iid:
                 cout << "\nStudent's ID : ";
                 cin >> id;
-                student.id = id;
                 for (int i = 0; i < students.size(); i++) if (students[i].id == id) did = true;
+                if (id != 0) student.id = id; else {
+                    cout << "\nID cannot be 0, Try Again.\n";
+                    goto Iid;
+                }
 
                 if (!did) students.push_back(student), cout << "\nStudent Registered.\n";
-                else cout << "\nStudent with the ID " << id << " already exists.\n";
-                system("pause");
-                break;
-            case 5:
-                system("cls");
-                cout << "\nPlease enter ID of the student in question : "; cin >> id; did = false;
+                else {
+                    cout << "\nStudent with the ID " << id << " already exists, Try Again.\n";
+                    goto Iid;
+                }
+                pause;
+            case 6:
+                cls;
+                cout << "Please enter ID of the student in question : "; cin >> id; did = false;
                 for (int i = 0; i < students.size(); i++) if (students[i].id == id) {
                     subject = {};
 
-                    cout << "\nName of Subject you want to assign : ";
+                    cout << "\nName of Subject you want to assign to "<< students[i].name <<" : ";
                     cin.ignore();
                     getline(cin, name);
                     subject.name = name;
@@ -105,11 +117,10 @@ int main () {
                 }
 
                 if (!did) cout << "\nStudent Not found\n";
-                system("pause");
-                break;
-            case 6:
-                system("cls");
-                cout << "\nPlease enter ID of the student in question : "; cin >> id; did = false;
+                pause;
+            case 7:
+                cls;
+                cout << "Please enter ID of the student in question : "; cin >> id; did = false;
                 for (int i = 0; i < students.size(); i++) if (students[i].id == id) {
                     cout << "What do you want to do with " << students[i].name << "\n1 - Delete\n2 - Rewrite Info\n";
                     cin >> grade;
@@ -129,28 +140,73 @@ int main () {
                         students[i].field = field;
 
                         cout << "\nChanges Done.\n";
-                    } else {
-                        cout << "\nAbort.\n";
-                    }
+                    } else cout << "\nAbort.\n";
 
                     did = true;
                 }
 
                 if (!did) cout << "\nStudent Not found\n";
-                system("pause");
-                break;
-            case 7:
-                system("cls");
-                // EDIT SUB
-                system("pause");
-                break;
+                pause;
             case 8:
-                system("cls");
+                cls;
+                cout << "Please enter ID of the student in question : "; cin >> id; did = false;
+                for (int i = 0; i < students.size(); i++) if (students[i].id == id) {
+                    cout << "\nActive Subjects of " << students[i].name << "\n";
+                    cout << "Name\tMultiplier\tGrade\n";
+                    for (int j = 0; j < students[i].subjects.size(); j++) cout << students[i].subjects[j].name << "\t" << students[i].subjects[j].multiplier << "\t" << students[i].subjects[j].score << "\n";
+                    did = true;
+                    cout << "\nPlease Enter name of the subject you want to modify : "; cin >> name;
+                    id = 0;
+                    for (int j = 0; j < students[i].subjects.size(); j++) if (students[i].subjects[j].name == name) {
+                        cout << "\n What action you want to perform on the subject " << students[i].subjects[j].name << " assigned to " << students[i].name << "?\n1 - Delete\n2 - Rewrite Info\n";
+                        id++;
+                        cin >> grade;
+                        if (grade == 1) {
+                            cout << "Are you sure ? (y/N) ";
+                            cin >> name;
+                            if (name == "Y" || name == "Yes" || name == "y" || name == "yes") students[i].subjects.erase(students[i].subjects.begin() + j), cout << "\nRemoved.\n";
+                            else cout << "\nAbort.\n";
+                            break;
+                        } else if (grade == 2) {
+                            subject = {};
+
+                            cout << "\nNew Name of the Subject : ";
+                            cin.ignore();
+                            getline(cin, name);
+                            subject.name = name;
+
+                            cout << "\nIts credit : ";
+                            cin >> multiplier;
+                            subject.multiplier = multiplier;
+
+                            cout << "\nIts Grade (default = 0) : ";
+                            cin >> grade;
+                            subject.score = grade;
+
+                            students[i].subjects[j] = subject;
+
+                            cout << "\nChanges Done.\n";
+                        } else cout << "\nAbort.\n";
+                    }
+
+                    if (!id) cout << "\nSubject Not found\n";
+                }
+
+                if (!did) cout << "\nStudent Not found\n";
+                pause;
+            case 9:
+                cls;
                 cout << "These Options are Dangerous, Can Overwrite data, Proceed with caution!\n\n1 - Insert Randomized Scores for all Subjects of all Students\n2 - Reset Database (Remove Everything)\n3 - Reset all Subjects\n\n4 - Save\n";
                 cin >> grade;
                 switch (grade) {
                     case 1:
-                        // INSERT RANDOM SCORES
+                        cout << "Are you sure ? This Action overwrites every saved score and cannot be recovered. (y/N) ";
+                        cin >> name;
+                        if (name == "Y" || name == "Yes" || name == "y" || name == "yes") {
+                            for (int i = 0; i < students.size(); i++) for (int j = 0; j < students[i].subjects.size(); j++) students[i].subjects[j].score = scoreRand();
+                            cout << "\nChanges Done.\n";
+                        }
+                        else cout << "\nAbort.\n";
                         break;
                     case 2:
                         cout << "Are you sure ? This Action Removes all registered students and assigned subjects from the database and cannot be recovered. (y/N) ";
@@ -171,18 +227,17 @@ int main () {
                     default:
                         cout << "Abort.\n";
                 }
-                system("pause");
-                break;
+                pause;
             default:
                 saveSt(students);
                 exit(0);
         }
-        system("cls");
+        cls;
     }
 }
 
 int menu() {
-    cout << "\n\nPlease type the number associated with action you want to perform : \n1 - List students\n2 - Sort and List students by Score\n3 - List Subjects of an Student\n4 - Register a new Student\n5 - Assign a new Subject\n6 - Edit Students\n7 - Edit Subjects\n\n8 - Database Management\n\nType any other character to save and exit ...\n";
+    cout << "Please type the number associated with action you want to perform : \n1 - List students\n2 - Sort and List students by Score\n3 - Filter and List students by Studying Field\n4 - List Subjects of an Student\n5 - Register a new Student\n6 - Assign a new Subject\n7 - Edit Students\n8 - Edit Subjects\n\n9 - Database Management\n\nType any other character to save and exit ...\n";
     int i;
     cin >> i;
     return i;
