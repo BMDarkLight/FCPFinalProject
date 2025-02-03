@@ -29,8 +29,9 @@ int main () {
             case 1:
                 cls;
                 cout << setw(15) << left << "ID" << setw(25) << "Name" << setw(15) << "Field" << "\n";
+                cout << "------------------------------------------------------------\n";
                 for (int i = 0; i < students.size(); i++) cout << setw(15) << left << students[i].id << setw(25) << students[i].name << setw(15) << students[i].field << "\n";
-                cout << "\n\n";
+                cout << "------------------------------------------------------------\n\n";
                 pause;
             case 2:
                 cls;
@@ -38,8 +39,9 @@ int main () {
                 for (int i = 0; i < temp.size() - 1; i++) for (int j = 0; j < temp.size() - i - 1; j++) if (scoreCalc(temp[j]) < scoreCalc(temp[j + 1])) swap(temp[j], temp[j + 1]);
                 
                 cout << setw(15) << left << "ID" << setw(25) << "Name" << setw(15) << "Field" << setw(6) << "Score" << "\n";
+                cout << "------------------------------------------------------------\n";
                 for (int i = 0; i < temp.size(); i++) cout << setw(15) << left << temp[i].id << setw(25) << temp[i].name << setw(15) << temp[i].field << setw(6) << scoreCalc(temp[i]) << "\n";
-                cout << "\n\n";
+                cout << "------------------------------------------------------------\n\n";
                 temp = {};
                 pause;
             case 3:
@@ -47,8 +49,9 @@ int main () {
                 cout << "Please enter the Studying Field that you want to list students of : ";
                 cin >> field;
                 cout << setw(15) << left << "ID" << setw(25) << "Name" << "\n";
+                cout << "------------------------------------------------------------\n";
                 for (int i = 0; i < students.size(); i++) if (students[i].field == field) cout << setw(15) << left << students[i].id << setw(25) << students[i].name << "\n";
-                cout << "\n\n";
+                cout << "------------------------------------------------------------\n\n";
                 pause;
             case 4:
                 cls;
@@ -56,11 +59,12 @@ int main () {
                 for (int i = 0; i < students.size(); i++) if (students[i].id == id) {
                     cout << "\nActive Subjects of " << students[i].name << "\n";
                     cout << setw(20) << left << "Name" << setw(7) << "Credit" << setw(5) << "Grade" << "\n";
+                    cout << "------------------------------------------------------------\n";
                     for (int j = 0; j < students[i].subjects.size(); j++) cout << setw(20) << left << students[i].subjects[j].name << setw(7) << students[i].subjects[j].multiplier << setw(5) << students[i].subjects[j].score << "\n";
                     did = true;
                 }
 
-                if (!did) cout << "\nStudent Not found\n"; else cout << "\n\n";
+                if (!did) cout << "\nStudent Not found\n"; else cout << "------------------------------------------------------------\n\n";
                 pause;
             case 5:
                 cls;
@@ -153,10 +157,11 @@ int main () {
                 cout << "Please enter ID of the student in question : "; cin >> id; did = false;
                 for (int i = 0; i < students.size(); i++) if (students[i].id == id) {
                     cout << "\nActive Subjects of " << students[i].name << "\n";
+                    cout << "------------------------------------------------------------\n";
                     cout << setw(20) << left << "Name" << setw(7) << "Credit" << setw(5) << "Grade" << "\n";
                     for (int j = 0; j < students[i].subjects.size(); j++) cout << setw(20) << left << students[i].subjects[j].name << setw(7) << students[i].subjects[j].multiplier << setw(5) << students[i].subjects[j].score << "\n";
                     did = true;
-                    cout << "\nPlease Enter name of the subject you want to modify : "; cin >> name;
+                    cout << "------------------------------------------------------------\n\nPlease Enter name of the subject you want to modify : "; cin >> name;
                     id = 0;
                     for (int j = 0; j < students[i].subjects.size(); j++) if (students[i].subjects[j].name == name) {
                         cout << "\n What action you want to perform on the subject " << students[i].subjects[j].name << " assigned to " << students[i].name << "?\n1 - Delete\n2 - Rewrite Info\n3 - Change Grade\n";
