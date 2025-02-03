@@ -230,8 +230,10 @@ int main () {
                     case 3:
                         cout << "Are you sure ? This Action Removes all assigned subjects from the database and cannot be recovered. (y/N) ";
                         cin >> name;
-                        if (name == "Y" || name == "Yes" || name == "y" || name == "yes") for (int i = 0; i < students.size(); i++) students[i].subjects = {}, cout << "\nAll Subjects Reset.\n";
-                        else cout << "\nAbort.\n";
+                        if (name == "Y" || name == "Yes" || name == "y" || name == "yes") {
+                            for (int i = 0; i < students.size(); i++) students[i].subjects = {};
+                            cout << "\nAll Subjects Reset.\n";
+                        } else cout << "\nAbort.\n";
                         break;
                     case 4:
                         saveSt(students);

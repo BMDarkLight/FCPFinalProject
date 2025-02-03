@@ -2,8 +2,6 @@
 This Repository is Specified for Fundamentals of Computer Programming Subject's Final Project.
 
 
-Just Note that this Project is not yet Finalized.
-
 # a Guide to How it works
 This is a program which handles a list of students with a list of subject assigned to every one of them.
 
