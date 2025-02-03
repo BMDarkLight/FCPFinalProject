@@ -1,6 +1,4 @@
-#ifdef DATA_HPP
-#else
-#define DATA_HPP
+#pragma once
 
 #include <ctime>
 #include <cstdlib>
@@ -35,5 +33,3 @@ float scoreRand(int seed = time(nullptr)) {
     srand(seed);
     return (rand() % 100) / 5.0;
 }
-
-#endif

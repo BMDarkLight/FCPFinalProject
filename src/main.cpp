@@ -8,7 +8,7 @@
 #include "file.hpp"
 
 #define cls system("cls")
-#define pause system("pause"); break
+#define pause system("pause"); saveSt(students); break
 
 using namespace std;
 
@@ -18,35 +18,36 @@ int main () {
     cout << "Welcome!\n";
 
     string name, field;
-    int id, grade, multiplier;
+    int id, multiplier; float grade;
     Student student;
     Subject subject;
-    vector <Student> students = loadSt();
+    vector <Student> students = loadSt(), temp{};
     bool did;
 
     while (1) {
         switch (menu()) {
             case 1:
                 cls;
-                cout << "ID\tName\tField\n";
-                for (int i = 0; i < students.size(); i++) cout << students[i].id << "\t" << students[i].name << "\t" << students[i].field << "\n";
+                cout << setw(15) << left << "ID" << setw(25) << "Name" << setw(15) << "Field" << "\n";
+                for (int i = 0; i < students.size(); i++) cout << setw(15) << left << students[i].id << setw(25) << students[i].name << setw(15) << students[i].field << "\n";
                 cout << "\n\n";
                 pause;
             case 2:
                 cls;
-                for (int i = 0; i < students.size() - 1; i++) for (int j = 0; j < students.size() - i - 1; j++) if (scoreCalc(students[j]) < scoreCalc(students[j + 1]))
-                            swap(students[j], students[j + 1]);
+                temp = students;
+                for (int i = 0; i < temp.size() - 1; i++) for (int j = 0; j < temp.size() - i - 1; j++) if (scoreCalc(temp[j]) < scoreCalc(temp[j + 1])) swap(temp[j], temp[j + 1]);
                 
-                cout << "ID\tName\tField\tScore\n";
-                for (int i = 0; i < students.size(); i++) cout << students[i].id << "\t" << students[i].name << "\t" << students[i].field << "\t" << scoreCalc(students[i]) << endl;
+                cout << setw(15) << left << "ID" << setw(25) << "Name" << setw(15) << "Field" << setw(6) << "Score" << "\n";
+                for (int i = 0; i < temp.size(); i++) cout << setw(15) << left << temp[i].id << setw(25) << temp[i].name << setw(15) << temp[i].field << setw(6) << scoreCalc(temp[i]) << "\n";
                 cout << "\n\n";
+                temp = {};
                 pause;
             case 3:
                 cls;
                 cout << "Please enter the Studying Field that you want to list students of : ";
                 cin >> field;
-                cout << "\nID\tName\n";
-                for (int i = 0; i < students.size(); i++) if (students[i].field == field) cout << students[i].id << "\t" << students[i].name << "\n";
+                cout << setw(15) << left << "ID" << setw(25) << "Name" << "\n";
+                for (int i = 0; i < students.size(); i++) if (students[i].field == field) cout << setw(15) << left << students[i].id << setw(25) << students[i].name << "\n";
                 cout << "\n\n";
                 pause;
             case 4:
@@ -54,8 +55,8 @@ int main () {
                 cout << "Please enter ID of the student in question : "; cin >> id; did = false;
                 for (int i = 0; i < students.size(); i++) if (students[i].id == id) {
                     cout << "\nActive Subjects of " << students[i].name << "\n";
-                    cout << "Name\tMultiplier\tGrade\n";
-                    for (int j = 0; j < students[i].subjects.size(); j++) cout << students[i].subjects[j].name << "\t" << students[i].subjects[j].multiplier << "\t" << students[i].subjects[j].score << "\n";
+                    cout << setw(20) << left << "Name" << setw(7) << "Credit" << setw(5) << "Grade" << "\n";
+                    for (int j = 0; j < students[i].subjects.size(); j++) cout << setw(20) << left << students[i].subjects[j].name << setw(7) << students[i].subjects[j].multiplier << setw(5) << students[i].subjects[j].score << "\n";
                     did = true;
                 }
 
@@ -105,9 +106,9 @@ int main () {
                     cin >> multiplier;
                     subject.multiplier = multiplier;
 
-                    cout << "\nIts Grade (default = 0) : ";
+                    cout << "\nIts Grade (0 to enter a random number) : ";
                     cin >> grade;
-                    subject.score = grade;
+                    if (!grade) subject.score = scoreRand(); else subject.score = grade;
 
                     students[i].subjects.push_back(subject);
                     
@@ -152,13 +153,13 @@ int main () {
                 cout << "Please enter ID of the student in question : "; cin >> id; did = false;
                 for (int i = 0; i < students.size(); i++) if (students[i].id == id) {
                     cout << "\nActive Subjects of " << students[i].name << "\n";
-                    cout << "Name\tMultiplier\tGrade\n";
-                    for (int j = 0; j < students[i].subjects.size(); j++) cout << students[i].subjects[j].name << "\t" << students[i].subjects[j].multiplier << "\t" << students[i].subjects[j].score << "\n";
+                    cout << setw(20) << left << "Name" << setw(7) << "Credit" << setw(5) << "Grade" << "\n";
+                    for (int j = 0; j < students[i].subjects.size(); j++) cout << setw(20) << left << students[i].subjects[j].name << setw(7) << students[i].subjects[j].multiplier << setw(5) << students[i].subjects[j].score << "\n";
                     did = true;
                     cout << "\nPlease Enter name of the subject you want to modify : "; cin >> name;
                     id = 0;
                     for (int j = 0; j < students[i].subjects.size(); j++) if (students[i].subjects[j].name == name) {
-                        cout << "\n What action you want to perform on the subject " << students[i].subjects[j].name << " assigned to " << students[i].name << "?\n1 - Delete\n2 - Rewrite Info\n";
+                        cout << "\n What action you want to perform on the subject " << students[i].subjects[j].name << " assigned to " << students[i].name << "?\n1 - Delete\n2 - Rewrite Info\n3 - Change Grade\n";
                         id++;
                         cin >> grade;
                         if (grade == 1) {
@@ -179,14 +180,21 @@ int main () {
                             cin >> multiplier;
                             subject.multiplier = multiplier;
 
-                            cout << "\nIts Grade (default = 0) : ";
+                            cout << "\nIts Grade (0 to enter a random number) : ";
                             cin >> grade;
-                            subject.score = grade;
+                            if (!grade) subject.score = scoreRand(); else subject.score = grade;
 
                             students[i].subjects[j] = subject;
 
                             cout << "\nChanges Done.\n";
-                        } else cout << "\nAbort.\n";
+                        } else if (grade == 3) {
+                            cout << "\nNew Grade to Assign : ";
+                            cin >> grade;
+
+                            students[i].subjects[j].score = grade;
+
+                            cout << "\nChanges Done.\n";
+                        }else cout << "\nAbort.\n";
                     }
 
                     if (!id) cout << "\nSubject Not found\n";
@@ -197,13 +205,13 @@ int main () {
             case 9:
                 cls;
                 cout << "These Options are Dangerous, Can Overwrite data, Proceed with caution!\n\n1 - Insert Randomized Scores for all Subjects of all Students\n2 - Reset Database (Remove Everything)\n3 - Reset all Subjects\n\n4 - Save\n";
-                cin >> grade;
-                switch (grade) {
+                cin >> id;
+                switch (id) {
                     case 1:
                         cout << "Are you sure ? This Action overwrites every saved score and cannot be recovered. (y/N) ";
                         cin >> name;
                         if (name == "Y" || name == "Yes" || name == "y" || name == "yes") {
-                            for (int i = 0; i < students.size(); i++) for (int j = 0; j < students[i].subjects.size(); j++) students[i].subjects[j].score = scoreRand();
+                            for (int i = 0; i < students.size(); i++) for (int j = 0; j < students[i].subjects.size(); j++) students[i].subjects[j].score = scoreRand(students[i].subjects[j].multiplier * students[i].subjects[j].name[0] * time(nullptr));
                             cout << "\nChanges Done.\n";
                         }
                         else cout << "\nAbort.\n";

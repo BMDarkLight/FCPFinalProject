@@ -1,6 +1,4 @@
-#ifdef FILE_HPP
-#else
-#define FILE_HPP
+#pragma once
 
 #include <vector>
 #include <fstream>
@@ -89,5 +87,3 @@ vector<Student> loadSt() {
     file.close();
     return students;
 }
-
-#endif
