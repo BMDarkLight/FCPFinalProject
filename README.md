@@ -21,8 +21,8 @@ Sorts Every Student in a list by their Average Grade
 3 - Filter and List students by Studying Field : Filters and Lists every saved student's name and ID by their field of studying
 
 
-4 - List Subjects of an Student : 
-Lists all assigned subjects of an student whom his/her ID is asked by the program.
+4 - Issue Report Card of a Student : 
+Lists all assigned subjects of an student whom his/her ID is asked by the program and calculates its overall score and shows all of it in a report card shape.
 
 
 5 - Register a new Student : 

@@ -13,17 +13,21 @@
 using namespace std;
 
 int menu ();
+bool isNumber (const string&);
 
 int main () {
     cout << "Welcome!\n";
 
-    string name, field;
-    int id, multiplier; float grade;
-    Student student;
-    Subject subject;
-    vector <Student> students = loadSt(), temp{};
+    string name, field, input;
+    int id, multiplier;
+    float grade;
     bool did;
 
+    Student student;
+    Subject subject;
+
+    vector <Student> students = loadSt(), temp{};
+    
     while (1) {
         switch (menu()) {
             case 1:
@@ -35,6 +39,10 @@ int main () {
                 pause;
             case 2:
                 cls;
+                if (!students.size()) {
+                    cout << "No Students Registered.\n\n";
+                    pause;
+                }
                 temp = students;
                 for (int i = 0; i < temp.size() - 1; i++) for (int j = 0; j < temp.size() - i - 1; j++) if (scoreCalc(temp[j]) < scoreCalc(temp[j + 1])) swap(temp[j], temp[j + 1]);
                 
@@ -55,16 +63,25 @@ int main () {
                 pause;
             case 4:
                 cls;
-                cout << "Please enter ID of the student in question : "; cin >> id; did = false;
+                cout << "Please enter ID of the student to issue : ";
+                
+                I4id:
+                cin >> input;
+                if (isNumber(input)) id = stoi(input); else {cout << "Invalid Input. Please Enter Again. \n"; goto I4id;}
+
+                did = false;
+
+                
                 for (int i = 0; i < students.size(); i++) if (students[i].id == id) {
-                    cout << "\nActive Subjects of " << students[i].name << "\n";
-                    cout << setw(20) << left << "Name" << setw(7) << "Credit" << setw(5) << "Grade" << "\n";
-                    cout << "------------------------------------------------------------\n";
-                    for (int j = 0; j < students[i].subjects.size(); j++) cout << setw(20) << left << students[i].subjects[j].name << setw(7) << students[i].subjects[j].multiplier << setw(5) << students[i].subjects[j].score << "\n";
+                    cls;
+                    grade = i;
+                    cout << "Report Card of Student : \n------------------------------------------------------------\n ID: "<< students[i].id << "\n Name: " << students[i].name << "\n Studying Field: " << students[i].field << "\n Active Subjects:\n------------------------------------------------------------\n";
+                    cout << " " << setw(20) << left << "Name" << setw(7) << "Credit" << setw(5) << "Grade" << "\n";
+                    for (int j = 0; j < students[i].subjects.size(); j++) cout << " " << setw(20) << left << students[i].subjects[j].name << setw(7) << students[i].subjects[j].multiplier << setw(5) << students[i].subjects[j].score << "\n";
                     did = true;
                 }
 
-                if (!did) cout << "\nStudent Not found\n"; else cout << "------------------------------------------------------------\n\n";
+                if (!did) cout << "\nStudent Not found\n"; else cout << "\n Overall Score : " << scoreCalc(students[grade]) <<"\n------------------------------------------------------------\n\n";
                 pause;
             case 5:
                 cls;
@@ -82,7 +99,9 @@ int main () {
 
                 Iid:
                 cout << "\nStudent's ID : ";
-                cin >> id;
+                cin >> input;
+                if (isNumber(input)) id = stoi(input); else {cout << "Invalid Input. Please Enter Again. \n"; goto Iid;}
+
                 for (int i = 0; i < students.size(); i++) if (students[i].id == id) did = true;
                 if (id != 0) student.id = id; else {
                     cout << "\nID cannot be 0, Try Again.\n";
@@ -97,7 +116,13 @@ int main () {
                 pause;
             case 6:
                 cls;
-                cout << "Please enter ID of the student in question : "; cin >> id; did = false;
+                cout << "Please enter ID of the student in question : ";
+                
+                I6id:
+                cin >> input;
+                if (isNumber(input)) id = stoi(input); else {cout << "Invalid Input. Please Enter Again. \n"; goto I6id;}
+                
+                did = false;
                 for (int i = 0; i < students.size(); i++) if (students[i].id == id) {
                     subject = {};
 
@@ -107,11 +132,18 @@ int main () {
                     subject.name = name;
 
                     cout << "\nIts credit : ";
-                    cin >> multiplier;
+                    
+                    I6multiplier:
+                    cin >> input;
+                    if (isNumber(input)) multiplier = stoi(input); else {cout << "Invalid Input. Please Enter Again. \n"; goto I6multiplier;}
+
                     subject.multiplier = multiplier;
 
+                    Igrade:
                     cout << "\nIts Grade (0 to enter a random number) : ";
-                    cin >> grade;
+                    cin >> input;
+                    if (isNumber(input)) grade = stof(input); else {cout << "Invalid Input. Please Enter Again. \n"; goto Igrade;}
+                    
                     if (!grade) subject.score = scoreRand(); else subject.score = grade;
 
                     students[i].subjects.push_back(subject);
@@ -125,10 +157,18 @@ int main () {
                 pause;
             case 7:
                 cls;
-                cout << "Please enter ID of the student in question : "; cin >> id; did = false;
+                cout << "Please enter ID of the student in question : ";
+                
+                I7id:
+                cin >> input;
+                if (isNumber(input)) id = stoi(input); else {cout << "Invalid Input. Please Enter Again. \n"; goto I7id;}
+                
+                did = false;
                 for (int i = 0; i < students.size(); i++) if (students[i].id == id) {
                     cout << "What do you want to do with " << students[i].name << "\n1 - Delete\n2 - Rewrite Info\n";
-                    cin >> grade;
+                    I7g:
+                    cin >> input;
+                    if (isNumber(input)) grade = stoi(input); else {cout << "Invalid Input. Please Enter Again. \n"; goto I7g;}
                     if (grade == 1) {
                         cout << "Are you sure ? (y/N) ";
                         cin >> name;
@@ -154,19 +194,29 @@ int main () {
                 pause;
             case 8:
                 cls;
-                cout << "Please enter ID of the student in question : "; cin >> id; did = false;
+                cout << "Please enter ID of the student in question : ";
+
+                I8id:
+                cin >> input;
+                if (isNumber(input)) id = stoi(input); else {cout << "Invalid Input. Please Enter Again. \n"; goto I8id;}
+                
+                did = false;
                 for (int i = 0; i < students.size(); i++) if (students[i].id == id) {
                     cout << "\nActive Subjects of " << students[i].name << "\n";
                     cout << "------------------------------------------------------------\n";
                     cout << setw(20) << left << "Name" << setw(7) << "Credit" << setw(5) << "Grade" << "\n";
                     for (int j = 0; j < students[i].subjects.size(); j++) cout << setw(20) << left << students[i].subjects[j].name << setw(7) << students[i].subjects[j].multiplier << setw(5) << students[i].subjects[j].score << "\n";
                     did = true;
-                    cout << "------------------------------------------------------------\n\nPlease Enter name of the subject you want to modify : "; cin >> name;
+                    cout << "\n------------------------------------------------------------\n\nPlease Enter name of the subject you want to modify : "; cin >> name;
                     id = 0;
                     for (int j = 0; j < students[i].subjects.size(); j++) if (students[i].subjects[j].name == name) {
                         cout << "\n What action you want to perform on the subject " << students[i].subjects[j].name << " assigned to " << students[i].name << "?\n1 - Delete\n2 - Rewrite Info\n3 - Change Grade\n";
                         id++;
-                        cin >> grade;
+                        
+                        I8g:
+                        cin >> input;
+                        if (isNumber(input)) grade = stoi(input); else {cout << "Invalid Input. Please Enter Again. \n"; goto I8g;}
+
                         if (grade == 1) {
                             cout << "Are you sure ? (y/N) ";
                             cin >> name;
@@ -182,11 +232,20 @@ int main () {
                             subject.name = name;
 
                             cout << "\nIts credit : ";
-                            cin >> multiplier;
+                            
+                            I8multiplier:
+                            cin >> input;
+                            if (isNumber(input)) multiplier = stoi(input); else {cout << "Invalid Input. Please Enter Again. \n"; goto I8multiplier;}
+
                             subject.multiplier = multiplier;
 
                             cout << "\nIts Grade (0 to enter a random number) : ";
-                            cin >> grade;
+                            
+                            I8grade:
+                            cin >> input;
+                            if (isNumber(input)) grade = stoi(input); else {cout << "Invalid Input. Please Enter Again. \n"; goto I8grade;}
+
+
                             if (!grade) subject.score = scoreRand(); else subject.score = grade;
 
                             students[i].subjects[j] = subject;
@@ -194,7 +253,10 @@ int main () {
                             cout << "\nChanges Done.\n";
                         } else if (grade == 3) {
                             cout << "\nNew Grade to Assign : ";
-                            cin >> grade;
+                            
+                            I8grade2:
+                            cin >> input;
+                            if (isNumber(input)) grade = stof(input); else {cout << "Invalid Input. Please Enter Again. \n"; goto I8grade2;}
 
                             students[i].subjects[j].score = grade;
 
@@ -210,7 +272,11 @@ int main () {
             case 9:
                 cls;
                 cout << "These Options are Dangerous, Can Overwrite data, Proceed with caution!\n\n1 - Insert Randomized Scores for all Subjects of all Students\n2 - Reset Database (Remove Everything)\n3 - Reset all Subjects\n\n4 - Save\n";
-                cin >> id;
+                
+                I9id:
+                cin >> input;
+                if (isNumber(input)) id = stoi(input); else {cout << "Invalid Input. Please Enter Again. \n"; goto I9id;}
+
                 switch (id) {
                     case 1:
                         cout << "Are you sure ? This Action overwrites every saved score and cannot be recovered. (y/N) ";
@@ -252,8 +318,17 @@ int main () {
 }
 
 int menu() {
-    cout << "Please type the number associated with action you want to perform : \n1 - List students\n2 - Sort and List students by Score\n3 - Filter and List students by Studying Field\n4 - List Subjects of an Student\n5 - Register a new Student\n6 - Assign a new Subject\n7 - Edit Students\n8 - Edit Subjects\n\n9 - Database Management\n\nType any other character to save and exit ...\n";
-    int i;
-    cin >> i;
+    cout << "Please type the number associated with action you want to perform : \n1 - List students\n2 - Sort and List students by Score\n3 - Filter and List students by Studying Field\n4 - Issue Report Card of a Student\n5 - Register a new Student\n6 - Assign a new Subject\n7 - Edit Students\n8 - Edit Subjects\n\n9 - Database Management\n\nType any other character to save and exit ...\n";
+    int i; string input;
+    
+    I:
+    cin >> input;
+    if (isNumber(input)) i = stoi(input); else {cout << "Invalid Input. Please Enter Again. \n"; goto I;}
+    
     return i;
+}
+
+bool isNumber(const string& s) {
+    for (char c : s) if (!isdigit(c)) return false;
+    return true;
 }
