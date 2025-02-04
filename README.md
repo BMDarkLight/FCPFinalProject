@@ -2,6 +2,9 @@
 This Repository is Specified for Fundamentals of Computer Programming Subject's Final Project.
 
 
+This Repository Contains a replica database file filled with example data to test functionality of the program.
+
+
 # a Guide to How it works
 This is a program which handles a list of students with a list of subject assigned to every one of them.
 
