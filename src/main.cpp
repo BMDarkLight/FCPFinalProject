@@ -144,7 +144,10 @@ int main () {
                     cin >> input;
                     if (isNumber(input)) grade = stof(input); else {cout << "Invalid Input. Please Enter Again. \n"; goto Igrade;}
                     
-                    if (!grade) subject.score = scoreRand(); else subject.score = grade;
+                    if (!grade) subject.score = scoreRand(); else if (grade < 0 || grade > 20) {
+                        cout << "Invalid Input. Please Enter Again. \n";
+                        goto Igrade;
+                    } else subject.score = grade;
 
                     students[i].subjects.push_back(subject);
                     
@@ -246,7 +249,10 @@ int main () {
                             if (isNumber(input)) grade = stoi(input); else {cout << "Invalid Input. Please Enter Again. \n"; goto I8grade;}
 
 
-                            if (!grade) subject.score = scoreRand(); else subject.score = grade;
+                            if (!grade) subject.score = scoreRand(); else if (grade < 0 || grade > 20) {
+                                cout << "Invalid Input. Please Enter Again. \n";
+                                goto I8grade;
+                            } else subject.score = grade;
 
                             students[i].subjects[j] = subject;
 
@@ -257,8 +263,11 @@ int main () {
                             I8grade2:
                             cin >> input;
                             if (isNumber(input)) grade = stof(input); else {cout << "Invalid Input. Please Enter Again. \n"; goto I8grade2;}
-
-                            students[i].subjects[j].score = grade;
+                            
+                            if (grade < 0 || grade > 20) {
+                                cout << "Invalid Input. Please Enter Again. \n";
+                                goto I8grade2;
+                            } else students[i].subjects[j].score = grade;
 
                             cout << "\nChanges Done.\n";
                         }else cout << "\nAbort.\n";
@@ -310,7 +319,10 @@ int main () {
                 }
                 pause;
             default:
+                cls;
                 saveSt(students);
+                cout << "Changes Saved.\n";
+                system("pause");
                 exit(0);
         }
         cls;
@@ -329,6 +341,11 @@ int menu() {
 }
 
 bool isNumber(const string& s) {
-    for (char c : s) if (!isdigit(c)) return false;
+    int d = 0;
+    for (char c : s) if (!isdigit(c) && c != '.') return false; else if (c == '.') d++;
+    
+    if (s[0] == '.' || s[s.length() - 1] == '.') return false;
+    if (d == s.length()) return false;
+
     return true;
 }
